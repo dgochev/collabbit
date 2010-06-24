@@ -91,8 +91,8 @@ module ApplicationHelper
   
   def phone(p)
     p = p.split('x').collect {|s| s.strip}
-    p.map! {|q| q.gsub(/[^0-9]/, '').to_i }
-    
+    p.map! {|q| q.gsub(/[^0-9]/, '').to_s }
+    p[0] = p[0].to_i
     opts = {}
     opts[:area_code] = true if p[0] && p[0].to_s.size > 7
     opts[:extension] = p[1] unless p[1].blank?

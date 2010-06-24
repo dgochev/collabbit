@@ -15,7 +15,7 @@ module UpdatesHelper
     end
   end
   
-  # format's an update's text for display on updates/index
+  # formats an update's text for display on updates/index
   def abbreviated_text(update)
     text = simple_link_format(update.text)
     if update.text.length <= 256

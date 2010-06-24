@@ -18,7 +18,7 @@
     <div class="comments">
       <h3>Comments:</h3>
       <% @update.comments.each do |c| %>
-		<div class="comment">
+		<div class="comment" id="<%=c.id%>">
 			<span class="comment-author"><%=link_to c.user.full_name, c.user %></span>
 			<span class="comment-body"><%=simple_link_format c.body%></span>
 			<% if (@current_user.id == c.user.id) || (can? :destroy => c) %>

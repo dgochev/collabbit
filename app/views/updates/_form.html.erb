@@ -33,10 +33,12 @@
 		<p>
 			<%= f.label :issuer, "Issuer", :class => "toplevel" %>
 			<%= collection_select(:update, :issuer, [Group.new(:id=>nil, :name=>'Myself')] + @current_user.groups.find(:all, :order => 'name'), :id, :name, {:index => nil}) %>
+<br>Issue update on behalf of you or one of your groups.
 		</p>
+		<br>
 		<p>
 			<%= f.label :relevant_groups, "Relevant Groups", :class => "toplevel" %>
-			<span class="sublabel"><a href="#" id="showmygroups" class="selected">my groups</a> <a href="#" id="showallgroups">all groups</a></span>
+			<span class="sublabel"><a href="#" id="showallgroups" class="selected">all groups</a> <a href="#" id="showmygroups">my groups</a></span>
 			<br/>
 			<% @groups.sort_by {|g| g.name}.each do |g| %>
 				<% if @current_user.groups.include? g %>
@@ -44,15 +46,16 @@
 				        @update.relevant_groups.include?(g)) + 
 				    label_tag("relevant_groups[#{g.id}]", g.name) %>
 				<% else %>
-				<span class="allgroups hide">
+				<span class="allgroups">
 					<%= check_box_tag("relevant_groups[#{g.id}]", '',
 					        @update.relevant_groups.include?(g)) +      
 					    label_tag("relevant_groups[#{g.id}]", g.name) %>
 				</span>
 				<% end %>
 			<% end%>
-
+<br>Select groups to which this update pertains. Members of these groups will receive notifications about this update.
 		</p>
+		<br>
 		<p>
 			<%= f.label :tags, "Tags", :class => "toplevel" %><br/>
 			<% @tags.sort_by {|t| t.name}.each do |t| %>
@@ -63,6 +66,7 @@
 		<p>
 			<%= f.label :additional_tags, "Additional Tags", :class => "toplevel" %><br/>
 			<%= f.text_field :additional_tags %>
+<br>Select one of the existing keywords related to this update or enter new ones. To create multiple tags, separate them with commas.
 		</p>
 	</div>
 	<p id="submit_box"><%= f.submit button_text %></p>

@@ -175,7 +175,15 @@
 					<% u.comments.last(5).each do |c| %>
 					<div class="comment">
 						<span class="comment-author"><%=link_to c.user.full_name, c.user %></span>
-						<span class="comment-body"><%=simple_link_format c.body%></span>
+
+						<span class="comment-body">
+							<%  if c.body.length > 256 %>
+								<%= abbreviated_body(c) %>
+								<%=link_to('&raquo;more', incident_update_path(@incident, u, :anchor => c.id)) %>
+							<%  else %>
+								<%=simple_link_format c.body %>
+							<% end %>
+						</span>
 						<% if (c.user.id == @current_user.id) || (can? :destroy => c) %>
 						    <span class="comment-destroy"><%=link_to '[x]', [@incident, u, c], :method => :delete, :confirm => 'Really delete?' %></span>
 						<% end %>

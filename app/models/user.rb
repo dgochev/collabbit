@@ -129,7 +129,7 @@ class User < ActiveRecord::Base
     if desk_phone_ext
       desk_phone.to_s + " x" + desk_phone_ext
     else
-      desk_phone
+      desk_phone.to_s
     end
   end
   
