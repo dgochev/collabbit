@@ -1,20 +1,20 @@
 ActionController::Routing::Routes.draw do |map|
   
-  # map.resources :admins, :only => [:index, :create, :update, :destroy]
-  # map.login 'login',        :controller => 'admin_sessions',  :action => 'new'
-  # map.resource :admin_session
+  map.resources :admins, :only => [:index, :create, :update, :destroy]
+  map.admins 'admins', :controller => 'admins', :action => 'index'
+  map.admin_login 'admin_login',        :controller => 'admin_sessions',  :action => 'new'
+  map.resource :admin_session
   # map.logout 'logout',      :controller => 'admin_sessions',  :action => 'destroy'
   # map.signup 'signup',      :controller => 'admins',    :action => 'new'
   # map.register 'register',  :controller => 'admins',    :action => 'create'
   
   map.with_options :controller => 'instances' do |instances|
     instances.overview  'overview',         :action => 'show'
-
+    instances.new       'new',              :action => 'new'
     instances.edit      'settings/edit',    :action => 'edit'
     instances.update    'settings/update',  :action => 'update'
   end
 
-  
   map.resources :incidents do |incident|
     incident.close 'close',	  :controller => 'incidents', :action => 'close'
     incident.resources :updates do |update|

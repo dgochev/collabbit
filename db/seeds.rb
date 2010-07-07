@@ -57,14 +57,12 @@ end
 default_users = [
   {:first_name => 'John',:last_name => 'Super',:email => 'test1@collabbit.org'},
   {:first_name => 'Jane',:last_name => 'Admin',:email => 'test2@collabbit.org'},
-  {:first_name => 'Jane',:last_name => 'Manager',:email => 'test3@collabbit.org'},
-  {:first_name => 'Joey',:last_name => 'User', :email => 'test4@collabbit.org'}]
+  {:first_name => 'Joey',:last_name => 'User', :email => 'test3@collabbit.org'}]
 users = default_users.collect { |u| i.users.create(u) }
 
 users[0].role = i.roles.find_by_name('Super Administrator')
 users[1].role = i.roles.find_by_name('Administrator')
-users[3].role = i.roles.find_by_name('Manager')
-users[4].role = i.roles.find_by_name('Normal User')
+users[2].role = i.roles.find_by_name('Normal User')
 
 users.each do |u|
   u.generate_salt!

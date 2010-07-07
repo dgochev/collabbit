@@ -15,13 +15,12 @@
 	<h1>Create an instance</h1>
 
 	<%= error_messages_for :instance %>
-	<% form_for @instance do |f| -%>
+
+	<% form_for :instance, @instance, :url=>{:action => 'create'} do |f| -%>
 		<%= f.label :short_name %>
 		<%= f.text_field :short_name %>
-		
 		<%= f.label :long_name %>
 		<%= f.text_field :long_name %>
-
-		<p><%= f.submit 'Create' %></p>
+		<%= f.submit 'Create' %></p>
 	<% end %>
 <% end %>

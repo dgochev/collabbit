@@ -7,7 +7,7 @@
 
 class InstancesController < AuthorizedController
   
-  before_filter :setup_editable_permissions, :only => [:update, :edit]
+  before_filter :setup_editable_permissions, :only => [:update, :edit, :create]
   
   def index
     @instances = Instance.all
@@ -30,6 +30,12 @@ class InstancesController < AuthorizedController
   def edit
     return with_rejection unless @current_user.can? :update => @instance
     @roles = @instance.roles
+  end
+
+  def admin_edit
+#    return with_rejection unless @current_user.can? :update => @instance
+    @instance = Instance.find(params[:id])
+#    @roles = @instance.roles
   end
 
   # Updates an existing instance object in the database specified by its :id
@@ -78,18 +84,21 @@ class InstancesController < AuthorizedController
   end
 
   def new
-    return with_rejection unless @current_user.can? :create => Instance
+  #  return with_rejection unless @current_user.can? :create => Instance
     @instance = Instance.new
   end
 
   # Saves an instance object to the database with the parameters provided in
   # the :instance hash, which is populated by the form on the 'new' page
   def create
-    return with_rejection unless @current_user.can? :create => Instance
-    @instance = Instance.build(params[:instance])
+  #  return with_rejection unless @current_user.can? :create => Instance
+    @short_name = params[:short_name]
+    flash[:notice] = @short_name
+    @instance = Instance.create(params[:instance])
+    @instance.short_name = params[:short_name]
     if @instance.save
-      flash[:notice] = t('notice.instance.created')
-      redirect_to @instance
+      flash[:notice] = t('notice.instance_.created')
+      redirect_to "/admins"
     else
       render :action => 'new'
     end

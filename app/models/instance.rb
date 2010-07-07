@@ -24,14 +24,14 @@ class Instance < ActiveRecord::Base
   attr_writer :whitelisted_domain_names
   after_save :handle_whitelisted_domains
   
-  validates_presence_of :short_name, :long_name
+  validates_presence_of  :long_name
   validates_length_of :long_name,  :within => 4..255
-  validates_format_of :short_name, :with => /\A[a-z]+\z/
-  validates_length_of :short_name, :within => 2..16
-  validates_uniqueness_of :short_name
-  validates_exclusion_of  :short_name,
-                          :in => FORBIDDEN_SUBDOMAINS,
-                          :message => "The name <strong>{{value}}</strong> is reserved and unavailable."
+#  validates_format_of :short_name, :with => /\A[a-z]+\z/
+#  validates_length_of :short_name, :within => 2..16
+#  validates_uniqueness_of :short_name
+#  validates_exclusion_of  :short_name,
+#                          :in => FORBIDDEN_SUBDOMAINS,
+#                          :message => "The name <strong>{{value}}</strong> is reserved and unavailable."
   
   attr_accessible :whitelisted_domain_names, :long_name
 

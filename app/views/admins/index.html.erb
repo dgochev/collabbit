@@ -13,14 +13,25 @@
 
 <% content_for :body do %>
 	<div id="wrap">
-		<h1>Admins</h1>
-		<ul id="contacts">
+		<h1>Administration:</h1>
+
+		<ul id="admins">
 		<% @admins.each do |a| %>
 			<li>
-				<div class="name"><%=link_to a.email, admin_url(a) %></div>
+				<div class="name"><%=link_to a.email%></div>
 			</li>
 		<% end %>
 		</ul>
 		<div style="clear:both"></div>
 	</div>
+<div>Instances:
+<ul id="instances">
+<%=pretty_button :new_instance, "new", 'Create Instance' -%>
+<% Instance.all.each do |i| %>
+<li>
+<%= i.long_name %> <%= link_to "edit", :controller => "instances", :action => "admin_edit", :id => i.id %>
+</li>
+<% end %>
+</ul> 
+</div>
 <% end %>

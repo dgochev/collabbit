@@ -23,7 +23,7 @@ en:
       created: "You successfully added a group type."
       updated: "You updated that group successfully."
     instance_:
-      created: "You successfully created an instance. Good Job!"
+      created: "You successfully created an instance."
       updated: "You successfully updated that instance."
     incident:
       created: "You successfully created an incident."
