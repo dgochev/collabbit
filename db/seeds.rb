@@ -1,3 +1,10 @@
+# resets the columns of all database models so that
+# migrations don't screw things up
+Dir.glob('app/models/*.rb') do |model|
+  klass = File.basename(model).gsub('.rb','').classify.constantize
+  klass.reset_column_information if klass < ActiveRecord::Base
+end
+
 UserObserver.disable!
 UpdateObserver.disable!
 
@@ -21,13 +28,11 @@ model_to_actions.each_pair do |klass,v|
   end
 end
 
-
 # Default Demo Instance
 i = Instance.create(:long_name => 'Demo Instance')
 i.short_name = 'demo'
 i.roles = Role.default_setup
 i.save
-
 
 # Default Groups and Group Types
 group_names={'Agency' => ['City Harvest', 'Clothing Bank', 'Power Plant',

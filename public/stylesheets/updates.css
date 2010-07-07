@@ -1,7 +1,8 @@
-#incident-closed {
+h2#incident-closed {
 	background: #aa0000;
 	color: white;
 	padding: .5em 1em;
+	margin: 0 0 20px;
 }
 
 #incident-description {
@@ -259,7 +260,7 @@
 							.relevant-groups ul li a:hover, .tags ul li a:hover {
 								text-decoration: none;
 							}
-/* #show */
+/* updates/show */
 #update {
 	width: 60%;
 	float: left;
@@ -311,9 +312,9 @@
 			}
 
 
-/* new/edit update page */
+/* updates/new and updates/edit */
 .hide {
-	display: none;
+	display: none !important;
 }
 #update-form {
 	width: 668px;
@@ -426,6 +427,31 @@
 				padding: 0 0 10px;
 				width: 556px;
 			}
+				.checkboxes {
+					list-style-type: none;
+					margin: 0 0 10px -16px;
+					padding: 0;
+					overflow: auto;
+					font-size: 14px;
+					line-height: 18px;
+				}
+					.checkboxes li {
+						width: 174px;
+						margin: 0 0 4px 16px ;
+						float: left;
+					}
+						.checkboxes input {
+							margin: 0 4px 0 0;
+							display: block;
+							width: 14px;
+							float: left;
+						}
+						.checkboxes label {
+							display: block;
+							float: left;
+							width: 156px;
+							margin-top: -2px;
+						}
 				.toplevel {
 					font-weight: bold;
 					color: #555;

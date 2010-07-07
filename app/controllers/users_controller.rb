@@ -1,10 +1,3 @@
-# Controller for operations on users in the database.
-#
-# Author::      Eli Fox-Epstein, efoxepstein@wesleyan.edu
-# Author::      Dimitar Gochev, dimitar.gochev@trincoll.edu
-# Copyright::   Humanitarian FOSS Project (http://www.hfoss.org), Copyright (C) 2009.
-# License::     http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
-
 class UsersController < AuthorizedController
 
   skip_before_filter :require_login, :only => [:new, :create, :forgot_password,
@@ -92,7 +85,7 @@ class UsersController < AuthorizedController
   # the :user hash, which is populated by the form on the 'new' page
   def create
     return with_rejection unless !logged_in? || @current_user.can?(:create => User)
-    
+    params[:user][:email].strip!
     @user = create_user(params[:user])
     @user.state = 'approved' if logged_in? || @user.whitelisted?
 
@@ -172,9 +165,9 @@ class UsersController < AuthorizedController
     
     if @user.update_attributes(params[:user])
       flash[:notice] ||= t('notice.user.updated')
-      redirect_to (params[:return_to] == 'back' ? :back : params[:return_to]) || @user
+      redirect_to (params[:return_to] == 'back' ? :back : params[:return_to]) || edit_user_url(@user)
     else
-      render :action => 'new'
+      render :action => 'edit'
     end
   end
 
@@ -213,6 +206,13 @@ class UsersController < AuthorizedController
       flash[:error] = t('error.user.unauthorized_editing')
       redirect_to new_session_path
     end
+  end
+
+  # re-sends a confirmation email to a user
+  def resend_activation
+    @user = @instance.users.find(params[:user_id])
+    UserMailer.deliver_approved_notification(@user)
+    redirect_to :back
   end
 
   # Removes a user object from the database
