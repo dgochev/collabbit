@@ -10,7 +10,9 @@
 				<%=link_to "Account", edit_user_path(@current_user)-%>
 				<span class="divider">|</span>
     			<%=link_to('Log Out', logout_path) -%>
-    		<% else %>
+    		<% elsif Admin.current %>
+    			<%= link_to('Log Out', "/admin_logout") %>
+		<% else %>
     			<%= link_to('Log In', login_path) %>
     			<%= link_to('Sign Up', signup_path) %>
     		<% end %>

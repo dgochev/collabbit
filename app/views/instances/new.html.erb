@@ -12,7 +12,6 @@
 <% content_for :body do %>
 <%= flashes %>
 	<% if Admin.current %>
-		<%=pretty_button :log_out, "admin_logout", "Log Out Admin" -%>
 		<%= link_to 'Aministration', instances_path %> &raquo; Edit Instance <br>
 	<% end %>
 	<h2>Create an instance</h2>
