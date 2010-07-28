@@ -16,11 +16,13 @@
 
 	<%= error_messages_for :instance %>
 
-	<% form_for :instance, @instance, :url=>{:action => 'create'} do |f| -%>
-		<%= f.label :short_name %>
-		<%= f.text_field :short_name %>
-		<%= f.label :long_name %>
-		<%= f.text_field :long_name %>
+	<% form_for :instance, :url=>{:action => 'create'} do |f| -%>
+<dl>
+	<dt>	<%= f.label :short_name %></dt>
+	<dd>	<%= f.text_field :short_name %></dd>
+	<dt>	<%= f.label :long_name %></dt>
+	<dd>	<%= f.text_field :long_name %></dd>	
+</dl>
 		<%= f.submit 'Create' %></p>
 	<% end %>
 <% end %>

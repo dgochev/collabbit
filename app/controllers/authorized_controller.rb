@@ -48,7 +48,7 @@ class AuthorizedController < ApplicationController
   end
 
   def require_admin_login
-    notice_exit(login_path, "Please log in to view this page.") unless logged_in?(:admin)
+    notice_exit(admin_login_path, "Please log in to view this page.") unless logged_in?(:admin)
   end  
 
   # Returns true if the user is logged in. Will try to log in from session and cookie.

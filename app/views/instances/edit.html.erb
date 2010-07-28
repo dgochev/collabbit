@@ -4,11 +4,14 @@
 
 <% content_for :body do%>	
 	<%= error_messages_for :instance %>
+	<% if Admin.current %>
+		<%= link_to 'Back', instances_path %> <br>
+	<% end %>
 	<h2>Settings</h2>
 	<% form_for @instance, :url => {:action => :update} do |f| -%>
 		<p><%= f.label :long_name, 'Name' %><br/>
 		<%= f.text_field :long_name %></p>
-		
+		<%= f.hidden_field :id, :value => @instance.id %>
 		<p><%= f.label :whitelisted_domain_names, 'Whitelisted Domains' %><br/>
 		<%= f.text_area :whitelisted_domain_names, :rows => 5, :cols => 30 %></p>
 
@@ -48,14 +51,15 @@
 	<ul>
 		<% @instance.tags.each do |tag| %>
 			<li>
-				<%= link_to tag.name, tag_url(tag) %>	
-				<%= link_to '[x]', tag_url(tag), :method => :delete, :confirm => "Delete the tag #{tag.name}?" if can?(:delete => tag) %>
+				<%= link_to tag.name, :controller => "tags", :action => "show", :id => tag.id, :instance => @instance.id%>	
+				<%= link_to '[x]', tag_url(tag), :method => :delete, :confirm => "Delete the tag #{tag.name}?" %>
 			</li>
 		<% end %>
 	</ul>
-	<h3>Add tags (comma-separated)</h3>
+	<h3>Add tags (separated by commas)</h3>
 	<% form_tag create_bulk_tags_path, :method => :post do %>
 		<%= text_field_tag :tags %>
+		<%= hidden_field_tag 'id', @instance.id %>
 		<%= submit_tag "Create tags" %>
 	<% end %>
 <% end %>

@@ -3,7 +3,7 @@
 <% content_for :subheader_title, 'Overview' %>
 <% content_for :buttons do %>
     <% if @current_user.can? :update => @instance %>
-	    <%= pretty_button :edit_instance, {:action => "edit"}, 'Edit Instance Settings' %>
+	    <%= pretty_button :edit_instance, {:action => "edit", :id =>@instance.id}, 'Edit Instance Settings' %>
 	<% end %>
 <% end %>
 <% content_for :body do %>

@@ -18,13 +18,18 @@ class AdminsController < AuthorizedController
     @admins = Admin.all
   end
 
+  def new
+#    return with_rejection unless !logged_in? || @current_user.can?(:create => User)
+    @admin = Admin.new
+  end
+
   # Saves an admin object to the database with the parameters provided in 
   # the :admin hash, which is populated by the form on the 'new' page
   def create
     @admin = Admin.new(params[:admin])
     if @admin.save
       flash[:notice] = 'Admin has been added successfully.'
-      redirect_to @admin
+      redirect_to admin_login_path
     else
       render :action => 'new'
     end
@@ -48,6 +53,6 @@ class AdminsController < AuthorizedController
   def destroy
     @admin = Admin.find(params[:id])
     @admin.destroy
-    redirect_to admins_path
+    redirect_to instances_path
   end  
 end

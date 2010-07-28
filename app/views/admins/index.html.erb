@@ -12,24 +12,25 @@
 <% content_for :branding, ''%>
 
 <% content_for :body do %>
-	<div id="wrap">
-		<h1>Administration:</h1>
-
+<%= link_to "Log Out", "admin_logout" %>
+	<div>
+		<h1>Admins:</h1>
 		<ul id="admins">
+		<%=pretty_button :new_admin, "admins/new", 'Create Admin' -%>
 		<% @admins.each do |a| %>
 			<li>
-				<div class="name"><%=link_to a.email%></div>
+				<div class="name">E-mail: <%= a.email%></div>
 			</li>
 		<% end %>
 		</ul>
 		<div style="clear:both"></div>
 	</div>
-<div>Instances:
+<div><h1>Existing instances:</h1>
 <ul id="instances">
 <%=pretty_button :new_instance, "new", 'Create Instance' -%>
 <% Instance.all.each do |i| %>
 <li>
-<%= i.long_name %> <%= link_to "edit", :controller => "instances", :action => "admin_edit", :id => i.id %>
+<%= i.long_name %> <%= link_to "edit", :controller => "instances", :action => "edit", :id => i.id %> [<%=link_to 'x', :controller => "instances", :action => "destroy", :id => i.id%>]
 </li>
 <% end %>
 </ul> 

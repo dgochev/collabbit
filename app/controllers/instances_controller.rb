@@ -8,7 +8,10 @@
 class InstancesController < AuthorizedController
   
   before_filter :setup_editable_permissions, :only => [:update, :edit, :create]
-  
+  skip_before_filter :require_login, :only => [:edit, :update, :new, :create, :destroy]
+
+
+
   def index
     @instances = Instance.all
     return with_rejection unless @current_user.can? :list => @instances
@@ -28,14 +31,9 @@ class InstancesController < AuthorizedController
   # It passes the permissions to the view in a hash in which the
   # permissions are organized by their model.
   def edit
-    return with_rejection unless @current_user.can? :update => @instance
+    @instance = Instance.find(Integer(params[:id]))
+    return with_rejection unless ((@current_user && (@current_user.can? :update => @instance)) || Admin.current)
     @roles = @instance.roles
-  end
-
-  def admin_edit
-#    return with_rejection unless @current_user.can? :update => @instance
-    @instance = Instance.find(params[:id])
-#    @roles = @instance.roles
   end
 
   # Updates an existing instance object in the database specified by its :id
@@ -44,8 +42,10 @@ class InstancesController < AuthorizedController
   # It also saves the updated permissions to the database based
   # on the :permissions hash
   def update
-    return with_rejection unless @current_user.can? :update => @instance
-    
+    @instance = Instance.find(Integer(params[:instance][:id]))
+#   flash[:notice] = "instance is " + params[:instance][:long_name]
+#    return with_rejection unless @current_user.can? :update => @instance
+    return with_rejection unless ((@current_user && (@current_user.can? :update => @instance)) || Admin.current)
     if params[:permissions].is_a? Hash
       params[:permissions].each_pair do |role_id, rest|
         role = @instance.roles.find(role_id, :include => [:permissions, :privileges])
@@ -61,15 +61,14 @@ class InstancesController < AuthorizedController
           to_add.each do |act|
             role.permissions << Permission.find(:first, :conditions => {:model => model_name, :action => act})
           end
-          
+
           role.save
         end
       end
     end
     if @instance.update_attributes(params[:instance])
-      #flash[:notice] = t('notice.instance.updated')
       flash[:notice] = t('notice.instance_.updated')
-      redirect_to edit_path
+      redirect_to edit_path(:id=>params[:instance][:id])
     else
       flash[:error] = t('error.instance.update_failed')
       render edit_path
@@ -78,13 +77,16 @@ class InstancesController < AuthorizedController
 
   # Removes an instance object specified by its :id from the database
   def destroy
-    return with_rejection unless @current_user.can? :destroy => @instance
+#    return with_rejection unless @current_user.can? :destroy => @instance
+    return with_rejection unless ((@current_user && (@current_user.can? :destroy => @instance)) || Admin.current)
+    @instance = Instance.find(Integer(params[:id]))
     @instance.destroy
-    redirect_to @instance
+    redirect_to instances_path
   end
 
   def new
   #  return with_rejection unless @current_user.can? :create => Instance
+    return with_rejection unless ((@current_user && (@current_user.can? :create => @instance)) || Admin.current)
     @instance = Instance.new
   end
 
@@ -92,13 +94,13 @@ class InstancesController < AuthorizedController
   # the :instance hash, which is populated by the form on the 'new' page
   def create
   #  return with_rejection unless @current_user.can? :create => Instance
-    @short_name = params[:short_name]
-    flash[:notice] = @short_name
+    return with_rejection unless ((@current_user && (@current_user.can? :create => Instance)) || Admin.current)
     @instance = Instance.create(params[:instance])
-    @instance.short_name = params[:short_name]
+    @instance.short_name = params[:instance][:short_name]
+    @instance.roles = Role.default_setup
     if @instance.save
       flash[:notice] = t('notice.instance_.created')
-      redirect_to "/admins"
+      redirect_to instances_path
     else
       render :action => 'new'
     end

@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   layout :check_if_promo_layout
   
   
-  after_filter :set_admin_flash
+#  after_filter :set_admin_flash
   before_filter :set_current_account, :set_environment
   before_filter :check_account_redirect
   
