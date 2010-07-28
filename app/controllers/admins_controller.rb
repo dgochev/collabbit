@@ -12,7 +12,6 @@ class AdminsController < AuthorizedController
 
   skip_before_filter :require_login
   before_filter :require_admin_login
-#  layout 'home'
 
   def index
     return with_rejection unless Admin.current
@@ -20,7 +19,6 @@ class AdminsController < AuthorizedController
   end
 
   def new
-#    return with_rejection unless !logged_in? || @current_user.can?(:create => User)
     return with_rejection unless Admin.current
     @admin = Admin.new
   end
@@ -28,6 +26,7 @@ class AdminsController < AuthorizedController
   # Saves an admin object to the database with the parameters provided in 
   # the :admin hash, which is populated by the form on the 'new' page
   def create
+    return with_rejection unless Admin.current
     @admin = Admin.new(params[:admin])
     if @admin.save
       flash[:notice] = 'Admin has been added successfully.'
@@ -41,6 +40,7 @@ class AdminsController < AuthorizedController
   # The data to be saved is provided in the :admin hash, 
   # which is populated by the form on the 'edit' page
   def update
+    return with_rejection unless Admin.current
     @admin = Admin.find(params[:id])
 
     if @admin.update_attributes(params[:admin])
@@ -53,6 +53,7 @@ class AdminsController < AuthorizedController
 
   # Removes an admin object specified by its :id from the database
   def destroy
+    return with_rejection unless Admin.current
     @admin = Admin.find(params[:id])
     @admin.destroy
     redirect_to instances_path

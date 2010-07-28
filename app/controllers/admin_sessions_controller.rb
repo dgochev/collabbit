@@ -18,7 +18,6 @@ class AdminSessionsController < AuthorizedController
   # is correct.
   def create
     @admin = Admin.find_by_email(params[:email])
-#    if @admin && @admin.crypted_password == params[:password]
     if @admin && @admin.password_matches?(params[:password])
       login_as @admin, :admin
       redirect_to instances_path

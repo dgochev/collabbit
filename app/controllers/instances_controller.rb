@@ -43,8 +43,6 @@ class InstancesController < AuthorizedController
   # on the :permissions hash
   def update
     @instance = Instance.find(Integer(params[:instance][:id]))
-#   flash[:notice] = "instance is " + params[:instance][:long_name]
-#    return with_rejection unless @current_user.can? :update => @instance
     return with_rejection unless ((@current_user && (@current_user.can? :update => @instance)) || Admin.current)
     if params[:permissions].is_a? Hash
       params[:permissions].each_pair do |role_id, rest|
@@ -77,7 +75,6 @@ class InstancesController < AuthorizedController
 
   # Removes an instance object specified by its :id from the database
   def destroy
-#    return with_rejection unless @current_user.can? :destroy => @instance
     return with_rejection unless ((@current_user && (@current_user.can? :destroy => @instance)) || Admin.current)
     @instance = Instance.find(Integer(params[:id]))
     @instance.destroy
@@ -85,15 +82,13 @@ class InstancesController < AuthorizedController
   end
 
   def new
-  #  return with_rejection unless @current_user.can? :create => Instance
-    return with_rejection unless ((@current_user && (@current_user.can? :create => @instance)) || Admin.current)
+    return with_rejection unless ((@current_user && (@current_user.can? :create => Instance)) || Admin.current)
     @instance = Instance.new
   end
 
   # Saves an instance object to the database with the parameters provided in
   # the :instance hash, which is populated by the form on the 'new' page
   def create
-  #  return with_rejection unless @current_user.can? :create => Instance
     return with_rejection unless ((@current_user && (@current_user.can? :create => Instance)) || Admin.current)
     @instance = Instance.create(params[:instance])
     @instance.short_name = params[:instance][:short_name]
