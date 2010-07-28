@@ -39,8 +39,9 @@ class UpdatesController < AuthorizedController
 
         updates = "There #{size == 1 ? 'is' : 'are'} #{humanize_number size, {},'a'} new update#{'s' if new_updates.size != 1}."
         yourgroups = user_diff > 0 ? "(#{user_diff} in your groups.)" : ''
-        reload = "#{link_to 'Reload the page', incident_updates_path(incident)} to see them."
-        page.replace_html 'new-updates', "<span>#{updates} #{yourgroups} #{reload}</span>"
+        reload = "#{link_to 'Refresh', incident_updates_path(incident)} to see #{size == 1 ? 'it' : 'them'}."
+        shadow = '<div id="shadow"></div>'
+        page.replace_html 'new-updates-inner', "<div id=\"new-updates\">#{updates} #{yourgroups} #{reload}</div>#{shadow}"
       end
     else
       render :text => ''

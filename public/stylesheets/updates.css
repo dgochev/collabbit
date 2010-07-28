@@ -10,17 +10,56 @@ h2#incident-closed {
 	font-size: 16px;
 }
 
-#new-updates {
-	margin: -10px 0 10px;
-	text-align: center;
+#new-updates-outer {
+	position: fixed;
+	z-index: 10;
+	left: 0;
+	top: 200px;
+	width: 100%;
 }
-	#new-updates span {
-		padding: 5px; background: #ffe600;
+	#new-updates-inner {
+		max-width: 944px;
+		min-width: 777px;
+		margin: 0 auto;
+		padding: 0 15px;
 	}
-		#new-updates  a {
-			color: #000;
-			font-weight: bold;
+		#new-updates {
+			width: 18%;
+			margin-left: -10px;
+			font-size: 14px;
+			background: #ffe600;
+			position: relative;
+			padding: 5px 8px;
+			border: 1px solid #aaa;
+			text-align: center;
 		}
+			#new-updates a {
+				font-weight: bold;
+				display: block;
+				font-size: 16px;
+				background: black;
+				color: #ffe600;
+				text-decoration: none;
+				padding: 4px;
+				margin: 5px 30px 0;
+				-moz-border-radius: 4px;
+				-webkit-border-radius: 4px;
+				border-radius: 4px;
+			}
+				#new-updates a:hover {
+					color: #aaa;
+				}
+			#shadow {
+				width: 0;
+				height: 0;
+				border: 5px solid #666;
+				border-width: 3px 5px 4px;
+				border-color: black black transparent transparent;
+				position: relative;
+				margin-left: -10px;
+				z-index: 2;
+				margin-top: -1px;
+			}
 
 
 /* updates/index */
