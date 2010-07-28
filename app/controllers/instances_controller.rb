@@ -9,7 +9,7 @@ class InstancesController < AuthorizedController
   
   before_filter :setup_editable_permissions, :only => [:update, :edit, :create]
   skip_before_filter :require_login, :only => [:edit, :update, :new, :create, :destroy]
-
+  layout 'home'
 
 
   def index

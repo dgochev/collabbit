@@ -12,9 +12,9 @@
 <% content_for :branding, ''%>
 
 <% content_for :body do %>
-<%= link_to "Log Out", "admin_logout" %>
+<%=pretty_button :log_out, "admin_logout", "Log Out Admin" -%>
 	<div>
-		<h1>Admins:</h1>
+		<h2>Admins:</h2>
 		<ul id="admins">
 		<%=pretty_button :new_admin, "admins/new", 'Create Admin' -%>
 		<% @admins.each do |a| %>
@@ -25,12 +25,12 @@
 		</ul>
 		<div style="clear:both"></div>
 	</div>
-<div><h1>Existing instances:</h1>
+<div><h2>Existing instances:</h2>
 <ul id="instances">
 <%=pretty_button :new_instance, "new", 'Create Instance' -%>
 <% Instance.all.each do |i| %>
 <li>
-<%= i.long_name %> <%= link_to "edit", :controller => "instances", :action => "edit", :id => i.id %> [<%=link_to 'x', :controller => "instances", :action => "destroy", :id => i.id%>]
+<%= i.long_name %> <%= link_to "edit", :controller => "instances", :action => "edit", :id => i.id %> <%=link_to '[x]', {:controller => "instances", :action => "destroy", :id => i.id}, :confirm => "Delete the instance #{i.long_name}?"%>
 </li>
 <% end %>
 </ul> 

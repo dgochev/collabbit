@@ -12,7 +12,7 @@ class AdminsController < AuthorizedController
 
   skip_before_filter :require_login
   before_filter :require_admin_login
-  layout 'home'
+#  layout 'home'
 
   def index
     return with_rejection unless Admin.current

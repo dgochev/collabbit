@@ -5,7 +5,8 @@
 <% content_for :body do%>	
 	<%= error_messages_for :instance %>
 	<% if Admin.current %>
-		<%= link_to 'Back', instances_path %> <br>
+		<%=pretty_button :log_out, "admin_logout", "Log Out Admin" -%>
+		<%= link_to 'Aministration', instances_path %> &raquo; Edit Instance <br>
 	<% end %>
 	<h2>Settings</h2>
 	<% form_for @instance, :url => {:action => :update} do |f| -%>
