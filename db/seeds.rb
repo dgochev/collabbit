@@ -78,6 +78,12 @@ users.each do |u|
   u.save
 end
 
+# Default Admin (for testing)
+admin = Admin.new
+admin.email = 'blah@blah.com'
+admin.generate_salt!
+admin.generate_crypted_password!('test')
+admin.save
 
 # Random Users (for a more realistic contacts page)
 first_names = %w[
