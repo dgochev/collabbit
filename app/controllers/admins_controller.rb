@@ -15,11 +15,13 @@ class AdminsController < AuthorizedController
   layout 'home'
 
   def index
+    return with_rejection unless Admin.current
     @admins = Admin.all
   end
 
   def new
 #    return with_rejection unless !logged_in? || @current_user.can?(:create => User)
+    return with_rejection unless Admin.current
     @admin = Admin.new
   end
 
